@@ -1,0 +1,166 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --surface: #f0f3fa;
+    --surface-card: #ffffff;
+    --surface-hover: #f0f3fa;
+    --surface-border: #e2e8f5;
+    --surface-muted: #f5f7fb;
+    --content: #1e2a4a;
+    --content-muted: #6b87c4;
+    --content-faint: #9aafda;
+    --checkerboard-color: #e2e8f5;
+    --skeleton-base: #e2e8f5;
+    --skeleton-shine: #f0f3fa;
+    --scrollbar-thumb: #c5d1e9;
+    --scrollbar-hover: #9aafda;
+    --tooltip-bg: #1e2a4a;
+  }
+
+  .dark {
+    --surface: #0f1626;
+    --surface-card: #1e2a4a;
+    --surface-hover: #2d3f66;
+    --surface-border: #2d3f66;
+    --surface-muted: #161f38;
+    --content: #e2e8f5;
+    --content-muted: #9aafda;
+    --content-faint: #6b87c4;
+    --checkerboard-color: #2d3f66;
+    --skeleton-base: #2d3f66;
+    --skeleton-shine: #161f38;
+    --scrollbar-thumb: #2d3f66;
+    --scrollbar-hover: #38507e;
+    --tooltip-bg: #f0f3fa;
+  }
+
+  * {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  body {
+    font-family: 'Cairo', system-ui, sans-serif;
+    background-color: var(--surface);
+    color: var(--content);
+    transition: background-color 0.3s ease, color 0.3s ease;
+  }
+
+  ::selection {
+    background-color: #e0e7ff;
+    color: #312e81;
+  }
+
+  ::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+  ::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: var(--scrollbar-thumb);
+    border-radius: 9999px;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: var(--scrollbar-hover);
+  }
+
+  input[type='range'] {
+    -webkit-appearance: none;
+    appearance: none;
+    height: 6px;
+    border-radius: 9999px;
+    background: var(--surface-border);
+    cursor: pointer;
+  }
+  input[type='range']::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    background: #6366f1;
+    border: 2px solid var(--surface-card);
+    box-shadow: 0 1px 4px rgba(99,102,241,0.4);
+    transition: transform 0.15s;
+  }
+  input[type='range']::-webkit-slider-thumb:hover {
+    transform: scale(1.15);
+  }
+  input[type='range']::-moz-range-thumb {
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    background: #6366f1;
+    border: 2px solid var(--surface-card);
+    box-shadow: 0 1px 4px rgba(99,102,241,0.4);
+    cursor: pointer;
+  }
+}
+
+@layer utilities {
+  .checkerboard {
+    background-image:
+      linear-gradient(45deg, var(--checkerboard-color) 25%, transparent 25%),
+      linear-gradient(-45deg, var(--checkerboard-color) 25%, transparent 25%),
+      linear-gradient(45deg, transparent 75%, var(--checkerboard-color) 75%),
+      linear-gradient(-45deg, transparent 75%, var(--checkerboard-color) 75%);
+    background-size: 16px 16px;
+    background-position: 0 0, 0 8px, 8px -8px, -8px 0;
+  }
+
+  .skeleton {
+    background: linear-gradient(90deg, var(--skeleton-base) 25%, var(--skeleton-shine) 50%, var(--skeleton-base) 75%);
+    background-size: 200% 100%;
+    animation: shimmer 1.8s linear infinite;
+  }
+
+  .stagger > * {
+    animation: slideUp 0.35s cubic-bezier(0.16,1,0.3,1) both;
+  }
+  .stagger > *:nth-child(1) { animation-delay: 0ms; }
+  .stagger > *:nth-child(2) { animation-delay: 50ms; }
+  .stagger > *:nth-child(3) { animation-delay: 100ms; }
+  .stagger > *:nth-child(4) { animation-delay: 150ms; }
+  .stagger > *:nth-child(5) { animation-delay: 200ms; }
+  .stagger > *:nth-child(6) { animation-delay: 250ms; }
+  .stagger > *:nth-child(7) { animation-delay: 300ms; }
+  .stagger > *:nth-child(8) { animation-delay: 350ms; }
+
+  .tooltip {
+    position: relative;
+  }
+  .tooltip::after {
+    content: attr(data-tip);
+    position: absolute;
+    bottom: calc(100% + 6px);
+    left: 50%;
+    transform: translateX(-50%) translateY(4px);
+    background: var(--tooltip-bg);
+    color: #fff;
+    font-size: 11px;
+    padding: 4px 8px;
+    border-radius: 6px;
+    white-space: nowrap;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.2s, transform 0.2s;
+    z-index: 50;
+  }
+  .tooltip:hover::after {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
